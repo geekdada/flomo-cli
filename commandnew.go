@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/geekdada/flomo-cli/client"
 	"github.com/pkg/errors"
+	"io"
 	"log"
 	"os"
 	"strings"
@@ -22,7 +24,13 @@ func (x *NewCommand) Usage() string {
 }
 
 func (x *NewCommand) Execute(args []string) error {
-	content := strings.Join(args, " ")
+	var content string
+
+	if isInputFromPipe() {
+		content = getStdinContent(os.Stdin)
+	} else {
+		content = strings.Join(args, " ")
+	}
 
 	if content == "" {
 		return errors.New("you must specify the content of the memo")
@@ -56,4 +64,30 @@ func (x *NewCommand) Execute(args []string) error {
 	os.Exit(0)
 
 	return nil
+}
+
+func isInputFromPipe() bool {
+    fileInfo, _ := os.Stdin.Stat()
+    return fileInfo.Mode() & os.ModeCharDevice == 0
+}
+
+func getStdinContent(r io.Reader) string {
+	var runes []rune
+	var output string
+
+	reader := bufio.NewReader(r)
+
+	for {
+		input, _, err := reader.ReadRune()
+		if err != nil && err == io.EOF {
+			break
+		}
+		runes = append(runes, input)
+	}
+
+	for j := 0; j < len(runes); j++ {
+		output += fmt.Sprintf("%c", runes[j])
+	}
+
+	return output
 }
