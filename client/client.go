@@ -14,15 +14,15 @@ import (
 
 type Memo struct {
 	Content string
-	Tag string
-	Api string
+	Tag     string
+	Api     string
 }
 
 type Payload struct {
 	Content string `json:"content"`
 }
 
-func (m *Memo) Submit(verbose bool)  (*string, error) {
+func (m *Memo) Submit(verbose bool) (*string, error) {
 	content := strings.TrimSpace(m.Content)
 
 	if m.Api == "" || content == "" {
