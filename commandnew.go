@@ -6,33 +6,32 @@ import (
 	"github.com/pkg/errors"
 	"log"
 	"os"
+	"strings"
 )
 
 type NewCommand struct {
 	Verbose bool `short:"V" long:"verbose" description:"Show verbose debug information"`
 
-	Api string `long:"api" description:"flomo API address"`
-
-	Content string `short:"c" long:"content" description:"Content to be sent" required:"true"`
+	Api string `long:"api" description:"flomo API address" env:"FLOMO_API"`
 
 	Tag string `short:"t" long:"tag" description:"Additional tag"`
 }
 
+func (x *NewCommand) Usage() string {
+	return "[new command options] <memo content>"
+}
+
 func (x *NewCommand) Execute(args []string) error {
-	api := os.Getenv("FLOMO_API")
+	content := strings.Join(args, " ")
 
-	if api == "" {
-		api = x.Api
-	}
-
-	if api == "" {
-		return errors.New("you must specify flomo API address either using FLOMO_API env or --api")
+	if content == "" {
+		return errors.New("you must specify the content of the memo")
 	}
 
 	memo := client.Memo{
-		Content: x.Content,
+		Content: content,
 		Tag:     x.Tag,
-		Api:     api,
+		Api:     x.Api,
 	}
 
 	responseMessage, err := memo.Submit(x.Verbose)
