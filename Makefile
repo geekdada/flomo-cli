@@ -21,9 +21,6 @@ PLATFORM_LIST = \
 	freebsd-386 \
 	freebsd-amd64
 
-test:
-	$(GO) test $(PKGS)
-
 all: linux-amd64 darwin-amd64 windows-amd64 # Most used
 
 darwin-amd64:
