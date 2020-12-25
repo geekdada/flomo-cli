@@ -53,19 +53,8 @@ func (x *NewCommand) Run(args []string) (int, error) {
 	responseMessage, err := memo.Submit(x.Verbose)
 
 	if err != nil {
-		switch err.(type) {
-		case *client.ResponseError:
-			re, _ := err.(*client.ResponseError)
-
-			if re.StatusCode >= 400 && re.StatusCode < 500 {
-				return 2, err
-			} else {
-				return 1, err
-			}
-		default:
-			fmt.Println(err)
-			return 1, err
-		}
+		log.Println(err)
+		return 1, err
 	}
 
 	log.Println(*responseMessage)
