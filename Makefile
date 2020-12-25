@@ -2,7 +2,7 @@ PKG=github.com/geekdada/flomo-cli
 NAME=flomo
 BINDIR=artifacts
 VERSION=$(shell git describe --tags || echo "development")
-GOBUILD=CGO_ENABLED=0 go build -trimpath -ldflags '-X "github.com/geekdada/flomo-cli/main.Version=$(VERSION)" \
+GOBUILD=CGO_ENABLED=0 go build -trimpath -ldflags '-X "main.Version=$(VERSION)" \
 		-w -s -buildid='
 
 WINDOWS_ARCH_LIST = \
