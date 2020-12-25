@@ -24,6 +24,14 @@ func (x *NewCommand) Usage() string {
 }
 
 func (x *NewCommand) Execute(args []string) error {
+	code, err := x.Run(args)
+
+	os.Exit(code)
+
+	return err
+}
+
+func (x *NewCommand) Run(args []string) (int, error) {
 	var content string
 
 	if isInputFromPipe() {
@@ -33,7 +41,7 @@ func (x *NewCommand) Execute(args []string) error {
 	}
 
 	if content == "" {
-		return errors.New("you must specify the content of the memo")
+		return 1, errors.New("you must specify the content of the memo")
 	}
 
 	memo := client.Memo{
@@ -50,20 +58,18 @@ func (x *NewCommand) Execute(args []string) error {
 			re, _ := err.(*client.ResponseError)
 
 			if re.StatusCode >= 400 && re.StatusCode < 500 {
-				os.Exit(2)
+				return 2, err
 			} else {
-				os.Exit(1)
+				return 1, err
 			}
 		default:
 			fmt.Println(err)
-			os.Exit(1)
+			return 1, err
 		}
 	}
 
 	log.Println(*responseMessage)
-	os.Exit(0)
-
-	return nil
+	return 0, nil
 }
 
 func isInputFromPipe() bool {

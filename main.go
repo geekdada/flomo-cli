@@ -7,6 +7,10 @@ import (
 )
 
 func main() {
+	os.Exit(run())
+}
+
+func run() int {
 	var options struct{}
 	var parser = flags.NewParser(&options, flags.Default)
 
@@ -22,11 +26,13 @@ func main() {
 		case *flags.Error:
 			fe, _ := err.(*flags.Error)
 			if fe.Type == flags.ErrHelp {
-				os.Exit(0)
+				return 0
 			}
-			os.Exit(1)
+			return 1
 		default:
-			os.Exit(1)
+			return 1
 		}
 	}
+
+	return 0
 }
