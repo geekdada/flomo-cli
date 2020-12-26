@@ -2,7 +2,7 @@ PKG=github.com/geekdada/flomo-cli
 NAME=flomo
 BINDIR=artifacts
 VERSION=$(shell git describe --tags || echo "development")
-GOBUILD=CGO_ENABLED=0 go build -trimpath -ldflags '-X "main.Version=$(VERSION)" \
+GOBUILD=CGO_ENABLED=0 go build -trimpath -ldflags '-X "main.version=$(VERSION)" \
 		-w -s -buildid='
 
 WINDOWS_ARCH_LIST = \
@@ -20,6 +20,9 @@ PLATFORM_LIST = \
 	linux-armv8 \
 	freebsd-386 \
 	freebsd-amd64
+
+test:
+	go test ./...
 
 all: linux-amd64 darwin-amd64 windows-amd64 # Most used
 
