@@ -7,7 +7,12 @@ A CLI tool for [flomo](https://flomoapp.com/register2/?Mzk3).
 
 ## 安装
 
-在 [Releases](https://github.com/geekdada/flomo-cli/releases) 页面下载对应的二进制文件。
+```bash
+# 支持在不同平台运行
+curl -sf https://gobinaries.com/geekdada/flomo-cli | sh
+```
+
+**或者** 在 [Releases](https://github.com/geekdada/flomo-cli/releases) 页面下载对应的二进制文件。
 
 ## 使用
 
