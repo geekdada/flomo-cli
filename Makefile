@@ -1,5 +1,5 @@
 PKG=github.com/geekdada/flomo-cli
-NAME=flomo
+NAME=flomo-cli
 BINDIR=artifacts
 VERSION=$(shell git describe --tags || echo "development")
 GOBUILD=CGO_ENABLED=0 go build -trimpath -ldflags '-X "main.version=$(VERSION)" \
